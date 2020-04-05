@@ -1,8 +1,9 @@
 from timeit import default_timer as timer
 
-
 import sys
-sys.path.append('/home/vitek/Vitek/Projects_local_for_ubuntu/GAN_handler')
+import cv2
+import mock
+sys.path.append('/media/ekmek/Vitek/Vitek2020/PythonProjects/GAN_handler/')
 from progressive_gan_handler import ProgressiveGAN_Handler
 
 class gan_capture(object):
@@ -11,7 +12,12 @@ class gan_capture(object):
     """
 
     def __init__(self, pro_gan_path = "aerials512vectors1024px_snapshot-010200.pkl"):
-        self.pro_handler = ProgressiveGAN_Handler(pro_gan_path)
+
+        args = mock.Mock()
+        args.model_path = pro_gan_path
+
+        # on local pc needs to be run with ..... CUDA_VISIBLE_DEVICES="0" python app.py
+        self.pro_handler = ProgressiveGAN_Handler(settings=None, args=args)
         self.pro_handler.report()
         example_input = self.pro_handler.example_input()
         example_output = self.pro_handler.infer(example_input)
